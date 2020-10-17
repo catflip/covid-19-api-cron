@@ -25,7 +25,23 @@ jobs:
       run: yarn
     - name: run script
       run: yarn start
-
+    - uses: dev-drprasad/delete-tag-and-release@v0.1.2
+      with:
+        delete_release: true # default: false
+        tag_name: ${{ github.ref }} # tag name to delete
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  
+    - name: Commit files
+      run: |
+        git config --local user.email "${{secrets.email}}"
+        git config --local user.name "spiritbro1"
+        git commit -m "Add changes" -a
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: main
+    
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -33,7 +49,7 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         tag_name: ${{ github.ref }}
-        release_name: Releasem
+        release_name: Release ${{ github.ref }}
         draft: false
         prerelease: false
     - name: Upload Release Asset
@@ -67,4 +83,4 @@ jobs:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
         asset_path: ./README.md
         asset_name: README.md
-        asset_content_type: text/markdown  
+        asset_content_type: text/markdown
