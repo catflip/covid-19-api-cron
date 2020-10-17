@@ -12,13 +12,12 @@ import format  from 'date-fns/format';
         daily()
       ]);
       const write = promisify(fs.writeFile);
-      const writeReadme=`# store covid daily api as json data
-
-- last cronjob : ${format(new Date(), "cccc, dd LLLL yyyy HH:mm:ss")}
-- status og cron : ${statusOg?"success":"error"}
-- status daily cron : ${statusDaily?"success":"error"}
-      
+      const writeReadme=`{
+ date:${format(new Date(), "cccc, dd LLLL yyyy HH:mm:ss")}
+og_status:${statusOg?"success":"error"}
+ daily_status:${statusDaily?"success":"error"}
+      }
       `;
-      await write("STATUS.md", writeReadme);
+      await write("status.json", writeReadme);
     
 })()
