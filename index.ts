@@ -13,9 +13,9 @@ import format  from 'date-fns/format';
       ]);
       const write = promisify(fs.writeFile);
       const writeReadme=`{
- date:${format(new Date(), "cccc, dd LLLL yyyy HH:mm:ss")}
-og_status:${statusOg?"success":"error"}
- daily_status:${statusDaily?"success":"error"}
+ "date":"${format(new Date(), "cccc, dd LLLL yyyy HH:mm:ss")}",
+"og_status":"${statusOg?"success":"error"}",
+ "daily_status":"${statusDaily?"success":"error"}"
       }
       `;
       await write("status.json", writeReadme);
