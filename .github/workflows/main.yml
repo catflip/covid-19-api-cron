@@ -33,7 +33,7 @@ jobs:
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
-        github_token: ${{ secrets.PERSONAL_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: main
     - uses: dev-drprasad/delete-tag-and-release@v0.1.2
       with:
